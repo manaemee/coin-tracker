@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars , faHome, faGift, faWallet, faUserAlt} from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
-import { fetchCoins , fetchCoinPrice} from "../api";
+import { fetchCoins } from "../api";
 import { mapQueryStatusFilter } from "react-query/types/core/utils";
+import { Link } from "react-router-dom";
 const Container = styled.div`
 padding: 0px 20px;
 max-width: 480px;
@@ -11,29 +12,35 @@ margin: 0 auto;
 box-sizing: border-box;
 `;
 
-const Header = styled.div`
+const Header = styled.header`
 display: flex;
-justify-content: space-between;
 align-items: center;
 padding: 10px 40px;
 position: fixed;
 top: 0;
 right: 480px;
 width: 33%;
-background-color: ${props=>props.theme.accentBgColor};
 div{
-    display: flex;
-    align-items: center;
+    width: 33%;
+    &:nth-child(2){
+        text-align: center;
+    }
+    &:last-child{
+text-align: end;
+    }
 }
+background-color: ${props=>props.theme.accentBgColor};
 `;
 const Username = styled.h1`
 font-weight: 700;
+
 `;
 const ProfileImg = styled.img`
 width:50px;
 height: 50px;
 margin-right: 20px;
 border-radius: 50%;
+
 `;
 const TotalAssets = styled.div`
 margin: 20px;
@@ -128,26 +135,32 @@ ul{
 }
 `;
 const Market_List = styled.li`
-display: flex;
-justify-content: space-around;
-align-items: center;
+
 margin-bottom: 20px;
 background-color: ${props=>props.theme.darkColor};
-padding: 10px 0px;
+padding: 10px 5px;
 border-radius: 20px;
+a{
+    display: flex;
+justify-content: space-between;
+align-items: center;   
+}
 div{
+    margin-left: 10px;
     img{
-        margin-right: 10px;
+   
     }
     span{
+        margin-left: 10px;
         text-transform: uppercase;
-    }
+    
 }
-`;
+}`
 const Market_Title = styled.div`
 display: flex;
-justify-content: space-around;
+justify-content:space-between;
 margin-bottom: 20px;
+padding: 0px 20px;
 `
 const Nav = styled.nav`
  background-color: ${props=>props.theme.accentBgColor};
@@ -163,9 +176,6 @@ const Nav = styled.nav`
 const Nav__list = styled.ul`
   display: flex;
   justify-content: space-between;
-img{
-    margin-right: 10px;
-}
 `;
 interface Icoins{
 name:string;
@@ -197,7 +207,6 @@ total_volume:number;
 
 function Home(){
     const {isLoading, data} = useQuery<Icoins[]>("allCoins", fetchCoins);
-   
     const trend = data?.slice(0,50).map(coin => (
         {
           name: coin.name,
@@ -212,11 +221,15 @@ function Home(){
     return (
         <Container>
             <Header>
-                <div>
+            <div>
                 <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/>
+                </div>
+                <div>
                 <Username>manaemee</Username>
                 </div>
-                <FontAwesomeIcon icon={faBars} size="2x" />
+                <div>
+                <FontAwesomeIcon icon={faBars} size="2x"/>
+                </div>
             </Header>
             <TotalAssets>
                 
@@ -234,7 +247,7 @@ function Home(){
                 <Trend__left>
                 <img src={coin.img}/>
                 <div>
-                    <span>{coin.name} </span> 
+                    <span>{coin.name}</span> 
                     <span>{`$${coin.price}`}</span>     
                 </div>
                 </Trend__left>
@@ -247,27 +260,34 @@ function Home(){
              <Market>
                  <ul>
                      <Market_Title>
-                     <span>name</span>
+                     <span>coin</span>
                      <span>price(USD)</span>
                      <span>market cap</span>
                      </Market_Title>
                      {data?.map((coin)=>
                      <Market_List>
+                         <Link to={`/coins/${coin.id}`} state={{name:coin.id, symbol:coin.symbol, price:coin.current_price}}>
                          <div>
                         <img src={coin.image}/>
-                        <span>{coin.symbol}</span>
-                         </div>  
-                         <span>{coin.current_price}</span>
-                         <span>{coin.market_cap}</span>
+                        <span>{coin.symbol}</span> 
+                        </div>
+                        <span>{coin.current_price}</span>
+                        <span>{coin.market_cap}</span>
+                        </Link>
                      </Market_List>
+
                      )}
                  </ul>
                 </Market> 
             <Nav>  
                 <Nav__list>
+                <Link to={"/"}>
                     <li>
+                   
                     <FontAwesomeIcon icon={faHome} size="lg" />
+                
                     </li>
+                      </Link>  
                     <li>
                     <FontAwesomeIcon icon={faGift} size="lg" />
                     </li>
