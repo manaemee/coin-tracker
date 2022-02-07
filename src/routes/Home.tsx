@@ -266,7 +266,7 @@ function Home(){
                      </Market_Title>
                      {data?.map((coin)=>
                      <Market_List>
-                         <Link to={`/coins/${coin.id}`} state={{name:coin.id, symbol:coin.symbol, price:coin.current_price}}>
+                         <Link to={`/${coin.id}`} state={{name:coin.id, symbol:coin.symbol, price:coin.current_price}}>
                          <div>
                         <img src={coin.image}/>
                         <span>{coin.symbol}</span> 

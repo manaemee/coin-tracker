@@ -1,14 +1,14 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Chart from "./routes/Chart";
 import Coin from "./routes/Coin";
-import Coins from "./routes/Coins";
 import Home from "./routes/Home";
+import Info from "./routes/Info";
 
 function Router(){
 return <BrowserRouter>
 <Routes>
-    <Route path="/" element={<Home/>}></Route>
-    <Route path="/coins" element={<Coins/>}></Route>
-    <Route path="/coins/:coinId" element={<Coin/>}></Route>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/:coinId/*" element={<Coin/>}/>
 </Routes>
 </BrowserRouter>
 }

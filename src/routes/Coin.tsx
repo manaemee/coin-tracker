@@ -1,12 +1,15 @@
-import { useQuery } from "react-query";
-import { Link, useLocation, useMatch, useParams } from "react-router-dom";
+
+import { Link,  useMatch,  Route ,Routes, useParams} from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars , faHome, faGift, faWallet, faUserAlt} from "@fortawesome/free-solid-svg-icons";
-import {fetchCoinHistory} from "../api";
-import ApexChart from "react-apexcharts"
-import { useState } from "react";
+import Chart from "./Chart";
+import Info from "./Info";
+import Price from "./price";
+import { useQuery } from "react-query";
+import { fetchCoins } from "../api";
 import Transaction  from "./Trans";
+
 const Container = styled.div`
 padding: 0px 20px;
 max-width: 480px;
@@ -34,6 +37,7 @@ background-color: ${props=>props.theme.accentBgColor};
 `;
 const Username = styled.h1`
 font-weight: 700;
+text-transform: uppercase;
 `;
 const ProfileImg = styled.img`
 width:50px;
@@ -47,9 +51,26 @@ const Title = styled.h1`
  font-weight: 700;
  text-transform: uppercase;
 `;
-const Chart = styled.div`
-margin-top: 100px;
+const Tabs = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 20px;
+margin-bottom: 40px;
 `;
+const Tab = styled.div<{ isActive: boolean }>`
+padding: 10px 30px;
+border-radius: 20px;
+  text-transform: uppercase;
+  font-size: 0px 30px;
+  font-weight: 400;
+  background-color: ${(props)=> props.theme.darkColor};
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  a {
+    display: block;
+  }
+`;
+
 const Nav = styled.nav`
  background-color: ${props=>props.theme.accentBgColor};
  width: 100%;
@@ -74,78 +95,75 @@ interface RouterState{
         price:number;
     };
     } 
-interface Iohlc {
-0:number;
-1:number;
-2:number;
-3:number;
-4:number;
+interface Icoins{
+        name:string;
+        id:string;
+        symbol:string;
+        ath_date:string;
+        atl_date:string;
+        image:string;
+        last_updated:string;
+        atl:number;
+        atl_change_percentage:number;
+        ath:number;
+        ath_change_percentage:number;
+        circulating_supply:number;
+        current_price:number;
+        fully_diluted_valuation:number;
+        high_24h:number;
+        low_24h:number;
+        market_cap:number;
+        market_cap_change_24h:number;
+        market_cap_change_percentage_24h:number;
+        market_cap_rank:number;
+        max_supply:number;
+        price_change_24h:number;
+        price_change_percentage_24h:number;
+        total_supply:number;
+        total_volume:number;
 }
-
 function Coin(){
-    const {state} = useLocation() as RouterState; 
-    const coinId = state.name;
-   const symbol= state.symbol;
-   const price = state.price;
-    const {isLoading, data} = useQuery<Iohlc[]>(["coinId", coinId], ()=>fetchCoinHistory(coinId));
+    const {coinId} = useParams();
+    const {isLoading, data} = useQuery<Icoins[]>("allCoins", fetchCoins);
+    const infoMatch = useMatch("/:coinId/info");
+    const chartMatch = useMatch("/:coinId");
+    const priceMatch = useMatch("/:coinId/price");
+    const coin = data?.find(v => v.id === coinId);
+    const price = coin?.current_price;
+    const symbol = coin?.symbol;
     return (
-<Container>
+<>
+ <Container>
             <Header>
                 <div>
                 <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/>
                 </div>
                 <div>
-                <Username>{state?.name || "Loading..."}</Username>
+                <Username>{coinId || "Loading..."}</Username>
                 </div>
                 <div>
                 <FontAwesomeIcon icon={faBars} size="2x" />
                 </div>
-            </Header>
-            <Title>top gainers</Title>
-            <Chart>{isLoading ? "Loading..." : <ApexChart
-        type="candlestick"
-        series={
-            [
-                {
-                  data: 
-                    
-                        data?.map(d => ({
-                            x:d[0],
-                            y:[d[1], d[2], d[3], d[4]],
-                        })),
-                },
-              ]
-        }
-        options={{
-            
-            theme:{
-                mode:"dark",
-            },
-           chart: {
-                type: 'candlestick',
-                height: 500,
-                toolbar:{
-                    show:false,
-                },
-                background: "transparent",
-              },
-
-              xaxis: {
-                type: 'datetime',
-                
-              },
-              yaxis: {
-                labels:{
-                    formatter:(value) => `$ ${value.toFixed(2)}`,
-                },
-                tooltip: {
-                  enabled: true
-                }
-              },
-       
-        }}
-        />}</Chart>
+            </Header>                                 
            <Transaction symbol={symbol} price={price}/>
+           <hr/>
+           <Tabs>
+               <Tab isActive={chartMatch !== null}>
+               <Link to={`/${coinId}`}>Chart</Link>
+               </Tab>
+               <Tab isActive={priceMatch !== null}>
+               <Link to={`/${coinId}/price`}>Price</Link>
+               </Tab>
+               <Tab isActive={infoMatch !== null}>
+               <Link to={`/${coinId}/info`}>Info</Link>
+                   </Tab>
+           </Tabs>
+
+        <Routes>
+                <Route path="/" element={<Chart coinId={coinId!}/>} />
+                <Route path="price" element={<Price coinId={coinId!}/>} />
+                <Route path="info" element={<Info />} />
+        </Routes>
             <Nav>  
                 <Nav__list>
                 <Link to={"/"}>
@@ -167,7 +185,7 @@ function Coin(){
                 </Nav__list>
             </Nav>  
         </Container>
-
+</>
     );
 }
 
