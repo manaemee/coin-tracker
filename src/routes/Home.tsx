@@ -289,7 +289,7 @@ function Home(){
                 </Market> 
             <Nav>  
                 <Nav__list>
-                <Link to={"/"}>
+                <Link to={`${process.env.PUBLIC_URL}/`}>
                     <li>
                    
                     <FontAwesomeIcon icon={faHome} size="lg" />
