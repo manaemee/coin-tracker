@@ -6,12 +6,12 @@ import { fetchCoins } from "../api";
 import { Link } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue} from "recoil";
 import { isDarkAtom } from "../atom";
+import MediaQuery from 'react-responsive';
 
 const Container = styled.div`
-padding: 0px 20px;
-max-width: 480px;
 margin: 0 auto;
 box-sizing: border-box;
+
 `;
 
 const Header = styled.header`
@@ -20,8 +20,7 @@ align-items: center;
 padding: 10px 40px;
 position: fixed;
 top: 0;
-right: 33%;
-width: 480px;
+width: 100%;
 div{
     width: 33%;
     &:nth-child(2){
@@ -171,14 +170,31 @@ const Nav = styled.nav`
   box-sizing: border-box;
   position: fixed;
   bottom: 0;
-  right: 480px;
+    width: 100%;
   box-sizing: border-box;
-  width: 480px;
 `;
 const Nav__list = styled.ul`
   display: flex;
   justify-content: space-between;
 `;
+
+const NoMobile = styled.div`
+position: fixed;
+top: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 99;
+height: 100vh;
+width: 100vw;
+font-size: 32px;
+font-weight: 700;
+background-color: ${props=>props.theme.bgColor};
+`;
+
+const Mobile = () => {
+ 
+  }
 interface Icoins{
 name:string;
 id:string;
@@ -226,7 +242,7 @@ function Home(){
       });
     return (
 <Container>
-<Header>
+        <Header>
             <div>
                 <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/>
                 </div>
@@ -234,12 +250,9 @@ function Home(){
                 <Username>manaemee</Username>
                 </div>
                 <div>
-                    {isDark ?  <FontAwesomeIcon icon={faLightbulb} size="lg" onClick={toggleDarkAtom}/> :  <FontAwesomeIcon icon={faMoon} size="lg" onClick={toggleDarkAtom}/>}
-               
+                    {isDark ?  <FontAwesomeIcon style={{cursor:'pointer'}} icon={faLightbulb} size="lg" onClick={toggleDarkAtom}/> :  <FontAwesomeIcon icon={faMoon} size="lg" onClick={toggleDarkAtom}/>}
                 </div>
             </Header>
-
-
             <TotalAssets>
                 <h2>Portfolio value</h2>
                 <h3>$15,136.32</h3>
@@ -307,6 +320,12 @@ function Home(){
                     </li>
                 </Nav__list>
             </Nav>  
+            <MediaQuery minWidth={645}>
+            <NoMobile>
+                <span>Your screen is too big 😂</span>
+            </NoMobile>
+            </MediaQuery>
+      
         </Container>
     )
 }

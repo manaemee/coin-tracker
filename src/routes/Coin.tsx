@@ -9,11 +9,8 @@ import Price from "./price";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import Transaction  from "./Trans";
-
+import MediaQuery from 'react-responsive';
 const Container = styled.div`
-padding: 0px 20px;
-max-width: 480px;
-margin: 0 auto;
 box-sizing: border-box;
 `;
 const Header = styled.header`
@@ -22,8 +19,7 @@ align-items: center;
 padding: 10px 40px;
 position: fixed;
 top: 0;
-right: 480px;
-width: 33%;
+width: 100%;
 div{
     width: 33%;
     &:nth-child(2){
@@ -35,6 +31,7 @@ text-align: end;
 }
 background-color: ${props=>props.theme.accentBgColor};
 `;
+
 const Username = styled.h1`
 font-weight: 700;
 text-transform: uppercase;
@@ -45,12 +42,7 @@ height: 50px;
 margin-right: 20px;
 border-radius: 50%;
 `;
-const Title = styled.h1`
- letter-spacing: 2px;
- margin-bottom: 12px;
- font-weight: 700;
- text-transform: uppercase;
-`;
+
 const Tabs = styled.div`
 display: flex;
 justify-content: space-between;
@@ -74,18 +66,30 @@ border-radius: 20px;
 const Nav = styled.nav`
  background-color: ${props=>props.theme.accentBgColor};
  width: 100%;
- padding: 20px 50px;
-  box-sizing: border-box;
   position: fixed;
   bottom: 0;
-  right: 480px;
   box-sizing: border-box;
-  width: 480px;
+
 `;
 
 const Nav__list = styled.ul`
   display: flex;
   justify-content: space-between;
+  padding: 10px;
+`;
+
+const NoMobile = styled.div`
+position: fixed;
+top: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 99;
+height: 100vh;
+width: 100vw;
+font-size: 32px;
+font-weight: 700;
+background-color: ${props=>props.theme.bgColor};
 `;
 
 interface RouterState{
@@ -122,9 +126,7 @@ interface Icoins{
         total_supply:number;
         total_volume:number;
 }
-interface IRouterProps{
-   
-}
+
 interface IcoinIdProps{
 
 }
@@ -190,6 +192,12 @@ function Coin({}:IcoinIdProps){
                     </li>
                 </Nav__list>
             </Nav>  
+            <MediaQuery minWidth={645}>
+            <NoMobile>
+                <span>Your screen is too big 😂</span>
+            </NoMobile>
+            </MediaQuery>
+      
         </Container>
 </>
     );
