@@ -289,7 +289,7 @@ function Home(){
                 </Market> 
             <Nav>  
                 <Nav__list>
-                <Link to={`${process.env.PUBLIC_URL}/`}>
+                <Link to={"/coin-tracker/"}>
                     <li>
                    
                     <FontAwesomeIcon icon={faHome} size="lg" />

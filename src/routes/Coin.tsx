@@ -172,7 +172,7 @@ function Coin({}:IcoinIdProps){
         </Routes>
             <Nav>  
                 <Nav__list>
-                <Link to={"/"}>
+                <Link to={"/coin-tracker/"}>
                     <li>
                    
                     <FontAwesomeIcon icon={faHome} size="lg" />
