@@ -289,7 +289,7 @@ function Home(){
                 </Market> 
             <Nav>  
                 <Nav__list>
-                <Link to={"/coin-tracker/"}>
+                <Link to="/coin-tracker/">
                     <li>
                    
                     <FontAwesomeIcon icon={faHome} size="lg" />
