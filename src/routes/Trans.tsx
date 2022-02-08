@@ -45,7 +45,7 @@ font-size: 18px;
 const Buttons = styled.div`
 margin-top: 20px;
 display: flex;
-justify-content: center;
+justify-content:space-around;
 input{
   border: 30px 40px;
   text-align:center;

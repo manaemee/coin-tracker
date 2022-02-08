@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars , faHome, faGift, faWallet, faUserAlt} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faGift, faWallet, faUserAlt, faMoon, faLightbulb} from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
-import { mapQueryStatusFilter } from "react-query/types/core/utils";
 import { Link } from "react-router-dom";
+import { useSetRecoilState, useRecoilValue} from "recoil";
+import { isDarkAtom } from "../atom";
+
 const Container = styled.div`
 padding: 0px 20px;
 max-width: 480px;
@@ -18,8 +20,8 @@ align-items: center;
 padding: 10px 40px;
 position: fixed;
 top: 0;
-right: 480px;
-width: 33%;
+right: 33%;
+width: 480px;
 div{
     width: 33%;
     &:nth-child(2){
@@ -207,6 +209,10 @@ total_volume:number;
 
 function Home(){
     const {isLoading, data} = useQuery<Icoins[]>("allCoins", fetchCoins);
+    const isDark = useRecoilValue(isDarkAtom);
+    const setterFn = useSetRecoilState(isDarkAtom);
+    const toggleDarkAtom = () => setterFn(prev => !prev);
+
     const trend = data?.slice(0,50).map(coin => (
         {
           name: coin.name,
@@ -219,8 +225,8 @@ function Home(){
           return b.change - a.change
       });
     return (
-        <Container>
-            <Header>
+<Container>
+<Header>
             <div>
                 <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/>
                 </div>
@@ -228,11 +234,13 @@ function Home(){
                 <Username>manaemee</Username>
                 </div>
                 <div>
-                <FontAwesomeIcon icon={faBars} size="2x"/>
+                    {isDark ?  <FontAwesomeIcon icon={faLightbulb} size="lg" onClick={toggleDarkAtom}/> :  <FontAwesomeIcon icon={faMoon} size="lg" onClick={toggleDarkAtom}/>}
+               
                 </div>
             </Header>
+
+
             <TotalAssets>
-                
                 <h2>Portfolio value</h2>
                 <h3>$15,136.32</h3>
                 <div>

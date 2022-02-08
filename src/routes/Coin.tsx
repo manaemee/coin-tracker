@@ -122,7 +122,13 @@ interface Icoins{
         total_supply:number;
         total_volume:number;
 }
-function Coin(){
+interface IRouterProps{
+   
+}
+interface IcoinIdProps{
+
+}
+function Coin({}:IcoinIdProps){
     const {coinId} = useParams();
     const {isLoading, data} = useQuery<Icoins[]>("allCoins", fetchCoins);
     const infoMatch = useMatch("/:coinId/info");

@@ -1,6 +1,8 @@
 import ApexChart from "react-apexcharts"
 import {fetchCoinHistory} from "../api";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atom";
 
 interface Iohlc {
     0:number;
@@ -10,9 +12,13 @@ interface Iohlc {
     4:number;
     }
 interface IcoinIdProps{
-    coinId:string
+    coinId:string;
     }    
-function Chart ({coinId}:IcoinIdProps) {
+    interface IRouterProps{
+      toggleDark: () => void;
+  }    
+function Chart ({coinId}:IcoinIdProps,{}:IRouterProps) {
+  const isDark = useRecoilValue(isDarkAtom);
  const {isLoading, data} = useQuery<Iohlc[]>(["coinId", coinId], ()=>fetchCoinHistory(coinId));
 return(
       <div>{isLoading ? "Loading" : <ApexChart
@@ -32,7 +38,7 @@ return(
       options={{
           
           theme:{
-              mode:"dark",
+              mode:isDark ? "dark": "light",
           },
          chart: {
               type: 'candlestick',

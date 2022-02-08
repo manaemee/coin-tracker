@@ -16,6 +16,7 @@ const OverviewItem = styled.div`
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 line-height: 32px;
 font-family: 'Inconsolata', monospace;
+overflow: scroll;
 `;
 function Info(){
     const {coinId} = useParams();
