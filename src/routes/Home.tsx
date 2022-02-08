@@ -192,9 +192,6 @@ font-weight: 700;
 background-color: ${props=>props.theme.bgColor};
 `;
 
-const Mobile = () => {
- 
-  }
 interface Icoins{
 name:string;
 id:string;
