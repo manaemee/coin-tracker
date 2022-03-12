@@ -231,7 +231,7 @@ function Home(){
     const setterFn = useSetRecoilState(isDarkAtom);
     const toggleDarkAtom = () => setterFn(prev => !prev);
 
-    const trend = data?.slice(0,50).map(coin => (
+    const trend = data?.slice(0,20).map(coin => (
         {
           name: coin.name,
           symbol: coin.symbol,
