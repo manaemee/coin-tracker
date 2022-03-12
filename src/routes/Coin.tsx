@@ -48,6 +48,7 @@ display: flex;
 justify-content: space-between;
 margin-top: 20px;
 margin-bottom: 40px;
+padding:10px ;
 `;
 const Tab = styled.div<{ isActive: boolean }>`
 padding: 10px 30px;
@@ -144,7 +145,7 @@ function Coin({}:IcoinIdProps){
  <Container>
             <Header>
                 <div>
-                <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/>
+                <Link to="/coin-tracker/"> <ProfileImg src="https://i.pinimg.com/564x/57/68/8e/57688e97d2671d0656a774e5c11efdcd.jpg"/></Link>
                 </div>
                 <div>
                 <Username>{coinId || "Loading..."}</Username>
@@ -192,7 +193,7 @@ function Coin({}:IcoinIdProps){
                     </li>
                 </Nav__list>
             </Nav>  
-            <MediaQuery minWidth={645}>
+            <MediaQuery minWidth={685}>
             <NoMobile>
                 <span>Your screen is too big 😂</span>
             </NoMobile>

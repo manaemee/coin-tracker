@@ -30,9 +30,11 @@ price_change_percentage_24h:number;
 total_supply:number;
 total_volume:number;
 }
-
+const Container = styled.div`
+padding:20px;
+`; 
 const Overview = styled.div`
-height:100vh ;
+padding-bottom: 30px;
 `;
 const OverviewItem = styled.div`
 padding: 10px;
@@ -50,7 +52,7 @@ function Price({coinId}:IcoinIdProps){
     const {isLoading, data} = useQuery<IpriceProps[]>("price", fetchPriceInfo);
     const coin = data?.find(v => v.id === coinId);
     return(
-        <div>{isLoading ? "Laoding..." :      <Overview>
+        <Container>{isLoading ? "Laoding..." :      <Overview>
         <OverviewItem>
            <span>symbol : </span>
            <span>{coin?.symbol}</span>
@@ -87,7 +89,7 @@ function Price({coinId}:IcoinIdProps){
            <span>low_24h : </span>
            <span>{coin?.low_24h}</span>
        </OverviewItem>
-   </Overview>}</div>
+   </Overview>}</Container>
        
     )
 }

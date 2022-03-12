@@ -3,6 +3,7 @@ import {fetchCoinHistory} from "../api";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atom";
+import styled from "styled-components";
 
 interface Iohlc {
     0:number;
@@ -16,12 +17,15 @@ interface IcoinIdProps{
     }    
     interface IRouterProps{
       toggleDark: () => void;
-  }    
+  }  
+const Container = styled.div`
+padding:10px ;
+`; 
 function Chart ({coinId}:IcoinIdProps,{}:IRouterProps) {
   const isDark = useRecoilValue(isDarkAtom);
  const {isLoading, data} = useQuery<Iohlc[]>(["coinId", coinId], ()=>fetchCoinHistory(coinId));
 return(
-      <div>{isLoading ? "Loading" : <ApexChart
+      <Container>{isLoading ? "Loading" : <ApexChart
       type="candlestick"
       series={
           [
@@ -63,7 +67,7 @@ return(
             },
       
       }}
-      />}</div>
+      />}</Container>
 
   )  
 }

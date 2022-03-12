@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 const Form =styled.form`
 margin-top: 50px;
+padding:0px 30px ;
 div{
   display: flex;
   align-items: center;
@@ -29,6 +30,7 @@ justify-content: center;
 const Input = styled.input.attrs({reqired:true, type:"number"})<ItransactionProps>`
 width: 100%;
 padding: 15px 0px;
+margin-right:10px ;
 ::placeholder{
     text-transform: uppercase;
     text-align:end;
@@ -60,33 +62,6 @@ interface ItransactionProps{
     symbol?:string;
     price?:number;
 }
-interface Icoins{
-  name:string;
-  id:string;
-  symbol:string;
-  ath_date:string;
-  atl_date:string;
-  image:string;
-  last_updated:string;
-  atl:number;
-  atl_change_percentage:number;
-  ath:number;
-  ath_change_percentage:number;
-  circulating_supply:number;
-  current_price:number;
-  fully_diluted_valuation:number;
-  high_24h:number;
-  low_24h:number;
-  market_cap:number;
-  market_cap_change_24h:number;
-  market_cap_change_percentage_24h:number;
-  market_cap_rank:number;
-  max_supply:number;
-  price_change_24h:number;
-  price_change_percentage_24h:number;
-  total_supply:number;
-  total_volume:number;
-  }
 
 function Transaction({symbol, price}:ItransactionProps){
     const [coin, setCoin] = useState<number|string>();

@@ -114,6 +114,7 @@ margin-right: 20px;
     }
 }
 `;
+
 const Trend__right = styled.div`
   display: flex;
   flex-direction: column;
@@ -121,12 +122,16 @@ const Trend__right = styled.div`
   span{
         margin-bottom: 10px;
     }
-    span:last-child{
-        color:red;
-    }
+`;
+const Increase = styled.span`
+color:  red;
+`;
+const Decrease = styled.span`
+color: blue ;
 `;
 const Market = styled.div`
 ul{
+    padding:10px ;
    li{
        img{
            width: 20px;
@@ -260,7 +265,7 @@ function Home(){
             </TotalAssets>
        <Title>top gainers</Title>
        {isLoading ? "Loading. . . " : (
-            <Trending>{trend?.slice(0,10).map((coin)=>
+            <Trending>{trend?.slice(0,50).map((coin)=>
             <TrendList key={coin.name}>
                 <Trend__left>
                 <img src={coin.img}/>
@@ -270,7 +275,7 @@ function Home(){
                 </div>
                 </Trend__left>
                  <Trend__right>
-                    <span>{`${coin.change.toFixed(1)}%`}</span>
+                 {Number(coin.change.toFixed(1))>0 ? <Increase>{`+${coin.change.toFixed(1)}`}</Increase> : <Decrease>{`-${coin.change.toFixed(1)}`}</Decrease>}
                 </Trend__right>
                         </TrendList>)}
                 </Trending>)}     
@@ -293,7 +298,6 @@ function Home(){
                         <span>{coin.market_cap}</span>
                         </Link>
                      </Market_List>
-
                      )}
                  </ul>
                 </Market> 
@@ -317,7 +321,7 @@ function Home(){
                     </li>
                 </Nav__list>
             </Nav>  
-            <MediaQuery minWidth={645}>
+            <MediaQuery minWidth={685}>
             <NoMobile>
                 <span>Your screen is too big 😂</span>
             </NoMobile>
