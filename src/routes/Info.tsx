@@ -27,15 +27,7 @@ function Info(){
        {data?.description.en ? data?.description.en : "This page is empty"}
        </OverviewItem>
    </Overview>}</div>
-
     )
 } 
 
-/* function Info (){
-    const {isLoading, data} = useQuery("test", fechTest);
-    console.log(data);
-    return (
-        <div></div>
-    )
-} */
 export default Info;

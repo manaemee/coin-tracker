@@ -32,7 +32,7 @@ total_volume:number;
 }
 
 const Overview = styled.div`
-
+height:100vh ;
 `;
 const OverviewItem = styled.div`
 padding: 10px;

@@ -322,7 +322,6 @@ function Home(){
                 <span>Your screen is too big 😂</span>
             </NoMobile>
             </MediaQuery>
-      
         </Container>
     )
 }
